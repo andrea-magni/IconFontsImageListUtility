@@ -200,7 +200,7 @@ object MainForm: TMainForm
   object Layout2: TLayout
     Align = Client
     Size.Width = 772.000000000000000000
-    Size.Height = 335.000000000000000000
+    Size.Height = 285.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 2
     object CodeMemo: TMemo
@@ -208,13 +208,13 @@ object MainForm: TMainForm
       DataDetectorTypes = []
       Align = Scale
       Position.X = 223.602432250976600000
-      Position.Y = 6.332703590393066000
-      Size.Width = 541.053527832031300000
-      Size.Height = 323.601348876953100000
+      Position.Y = 5.387524127960205000
+      Size.Width = 541.053527832031200000
+      Size.Height = 275.302642822265600000
       Size.PlatformDefault = False
       TabOrder = 1
       Viewport.Width = 537.100000000000000000
-      Viewport.Height = 319.600000000000000000
+      Viewport.Height = 271.300000000000000000
     end
     object TemplateMemo: TMemo
       Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
@@ -236,13 +236,51 @@ object MainForm: TMainForm
         '')
       Align = Scale
       Position.X = 8.160674095153809000
-      Position.Y = 6.332703590393066000
-      Size.Width = 208.097229003906300000
-      Size.Height = 323.601348876953100000
+      Position.Y = 5.387524127960205000
+      Size.Width = 208.097229003906200000
+      Size.Height = 275.302642822265600000
       Size.PlatformDefault = False
       TabOrder = 0
       Viewport.Width = 204.100000000000000000
-      Viewport.Height = 303.600000000000000000
+      Viewport.Height = 255.300000000000000000
+    end
+  end
+  object Layout3: TLayout
+    Align = Bottom
+    Position.Y = 470.000000000000000000
+    Size.Width = 772.000000000000000000
+    Size.Height = 50.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    object SaveButton: TButton
+      Action = SaveAction
+      Anchors = [akTop, akRight]
+      Enabled = True
+      ImageIndex = -1
+      Position.X = 688.000000000000000000
+      Position.Y = 12.000000000000000000
+      Size.Width = 77.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 5
+    end
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = '.pas'
+    Filter = 'Pascal file|*.pas|Any file|*.*'
+    FilterIndex = 0
+    Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
+    Title = 'Save generated unit to file...'
+    Left = 504
+    Top = 401
+  end
+  object ActionList1: TActionList
+    Left = 584
+    Top = 377
+    object SaveAction: TAction
+      Text = 'Save'
+      OnExecute = SaveActionExecute
+      OnUpdate = SaveActionUpdate
     end
   end
 end

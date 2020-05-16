@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
   FMX.Edit, FMX.Controls.Presentation, FMX.ScrollBox, FMX.Memo, StrUtils
-, Model, FMX.Layouts
+, Model, FMX.Layouts, System.Actions, FMX.ActnList
 ;
 
 type
@@ -32,13 +32,23 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
+    Layout3: TLayout;
+    SaveButton: TButton;
+    SaveDialog1: TSaveDialog;
+    ActionList1: TActionList;
+    SaveAction: TAction;
     procedure ImportMaterialDesignButtonClick(Sender: TObject);
     procedure ImportFontAwesomeButtonClick(Sender: TObject);
+    procedure SaveActionExecute(Sender: TObject);
+    procedure SaveActionUpdate(Sender: TObject);
   private
+    FLastGeneratedUnitName: string;
   protected
     function ExpandTemplate(const ATemplate, AUnitName, ATypeName: string;
       const Entries: TFontEntries): string;
   public
+    procedure AfterConstruction; override;
+
   end;
 
 
@@ -50,6 +60,12 @@ implementation
 {$R *.fmx}
 
 uses Data.Metadata;
+
+procedure TMainForm.AfterConstruction;
+begin
+  inherited;
+  FLastGeneratedUnitName := '';
+end;
 
 function TMainForm.ExpandTemplate(const ATemplate, AUnitName, ATypeName: string;
   const Entries: TFontEntries): string;
@@ -85,6 +101,8 @@ begin
           , FontAwesomeUnitNameEdit.Text
           , FontAwesomeTypeNameEdit.Text
           , Entries);
+
+        FLastGeneratedUnitName := FontAwesomeUnitNameEdit.Text;
       finally
         CodeMemo.Lines.EndUpdate;
       end;
@@ -113,6 +131,8 @@ begin
           , MaterialDesignUnitNameEdit.Text
           , MaterialDesignTypeNameEdit.Text
           , Entries);
+
+        FLastGeneratedUnitName := MaterialDesignUnitNameEdit.Text;
       finally
         CodeMemo.Lines.EndUpdate;
       end;
@@ -124,6 +144,18 @@ begin
       CodeMemo.Text := Error.ToString;
     end
   );
+end;
+
+procedure TMainForm.SaveActionExecute(Sender: TObject);
+begin
+  SaveDialog1.FileName := FLastGeneratedUnitName + '.pas';
+  if SaveDialog1.Execute then
+    CodeMemo.Lines.SaveToFile(SaveDialog1.FileName, TEncoding.ANSI);
+end;
+
+procedure TMainForm.SaveActionUpdate(Sender: TObject);
+begin
+  SaveAction.Enabled := FLastGeneratedUnitName <> '';
 end;
 
 end.

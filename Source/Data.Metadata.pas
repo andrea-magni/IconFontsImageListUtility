@@ -3,7 +3,7 @@ unit Data.Metadata;
 interface
 
 uses
-  System.SysUtils, System.Classes
+  System.SysUtils, System.Classes, System.JSON
 , MARS.Core.JSON
 , Model
 ;
