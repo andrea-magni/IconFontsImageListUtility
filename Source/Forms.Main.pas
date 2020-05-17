@@ -37,14 +37,22 @@ type
     SaveDialog1: TSaveDialog;
     ActionList1: TActionList;
     SaveAction: TAction;
+    TestFAButton: TButton;
+    MaterialDesignShortNameEdit: TEdit;
+    Label9: TLabel;
+    FontAwesomeShortNameEdit: TEdit;
+    Label10: TLabel;
+    TestMDButton: TButton;
     procedure ImportMaterialDesignButtonClick(Sender: TObject);
     procedure ImportFontAwesomeButtonClick(Sender: TObject);
     procedure SaveActionExecute(Sender: TObject);
     procedure SaveActionUpdate(Sender: TObject);
+    procedure TestFAButtonClick(Sender: TObject);
+    procedure TestMDButtonClick(Sender: TObject);
   private
     FLastGeneratedUnitName: string;
   protected
-    function ExpandTemplate(const ATemplate, AUnitName, ATypeName: string;
+    function ExpandTemplate(const ATemplate, AUnitName, ATypeName, AShortName: string;
       const Entries: TFontEntries): string;
   public
     procedure AfterConstruction; override;
@@ -59,7 +67,7 @@ implementation
 
 {$R *.fmx}
 
-uses Data.Metadata;
+uses Data.Metadata, Icons.MaterialDesign, Icons.FontAwesome, System.Rtti, TypInfo;
 
 procedure TMainForm.AfterConstruction;
 begin
@@ -67,7 +75,39 @@ begin
   FLastGeneratedUnitName := '';
 end;
 
-function TMainForm.ExpandTemplate(const ATemplate, AUnitName, ATypeName: string;
+procedure TMainForm.TestFAButtonClick(Sender: TObject);
+var
+  LIcon: Icons.FontAwesome.TIconEntry;
+begin
+  ShowMessage(FA.accusoft.name + ' = ' + IntToHex(FA.accusoft.codepoint, 4));
+
+  LIcon := FA._entries[FA.accusoft.index];
+  ShowMessage(LIcon.name + ' = ' + IntToHex(LIcon.codepoint, 4));
+
+  for LIcon in FA._entries do
+  begin
+    if LIcon.name.StartsWith('mar', True) then
+      ShowMessage(LIcon.name + ' = ' + IntToHex(LIcon.codepoint, 4) + ' index: ' + LIcon.index.ToString);
+  end;
+end;
+
+procedure TMainForm.TestMDButtonClick(Sender: TObject);
+var
+  LIcon: Icons.MaterialDesign.TIconEntry;
+begin
+  ShowMessage(MD.account.name + ' = ' + IntToHex(MD.account.codepoint, 4));
+
+  LIcon := MD._entries[MD.account.index];
+  ShowMessage(LIcon.name + ' = ' + IntToHex(LIcon.codepoint, 4));
+
+  for LIcon in MD._entries do
+  begin
+    if LIcon.name.StartsWith('mar', True) then
+      ShowMessage(LIcon.name + ' = ' + IntToHex(LIcon.codepoint, 4) + ' index: ' + LIcon.index.ToString);
+  end;
+end;
+
+function TMainForm.ExpandTemplate(const ATemplate, AUnitName, ATypeName, AShortName: string;
   const Entries: TFontEntries): string;
 var
   LDeclarations: TArray<string>;
@@ -75,15 +115,50 @@ begin
   Result := ATemplate
     .Replace('%UnitName%', AUnitName, [rfReplaceAll, rfIgnoreCase])
     .Replace('%TypeName%', ATypeName, [rfReplaceAll, rfIgnoreCase])
+    .Replace('%ShortName%', AShortName, [rfReplaceAll, rfIgnoreCase])
     .Replace('%Count%', Length(Entries).ToString, [rfReplaceAll, rfIgnoreCase])
+    .Replace('%Count-1%', (Length(Entries)-1).ToString, [rfReplaceAll, rfIgnoreCase])
+    .Replace('%TimeStamp%', FormatDateTime('yyyy-mm-dd hh:nn.ss', Now), [rfReplaceAll, rfIgnoreCase]);
   ;
 
   LDeclarations := [];
-  for var Entry in Entries do
-    LDeclarations := LDeclarations + ['    ' + Entry.ToConstDeclaration];
+  for var LIndex: Integer := 0 to Length(Entries)-1 do
+  begin
+    var LEntry := Entries[LIndex];
+    LDeclarations := LDeclarations + ['    ' + LEntry.ToRecordConstDeclaration(LIndex)];
+  end;
 
   Result := Result
-    .Replace('%Declarations%', string.Join(sLineBreak, LDeclarations), [rfIgnoreCase]);
+    .Replace('%Const_Declarations%', string.Join(sLineBreak, LDeclarations), [rfIgnoreCase]);
+
+
+  LDeclarations := [];
+  for var LIndex: Integer := 0 to Length(Entries)-1 do
+  begin
+    var LEntry := Entries[LIndex];
+    LDeclarations := LDeclarations + [
+        '      '
+      + IfThen(LIndex = 0, '', ', ')
+      + LEntry.ToRecordConstDeclaration(LIndex, True)
+    ];
+  end;
+
+  Result := Result
+    .Replace('%Value_Declarations%', string.Join(sLineBreak, LDeclarations), [rfIgnoreCase]);
+
+  LDeclarations := [];
+  for var LIndex: Integer := 0 to Length(Entries)-1 do
+  begin
+    var LEntry := Entries[LIndex];
+    LDeclarations := LDeclarations + [
+        '      '
+      + LEntry.ToIndexedPropertyDeclaration(LEntry.sanitized_name, 'TIconEntry', LIndex)
+    ];
+  end;
+
+  Result := Result
+    .Replace('%Property_Declarations%', string.Join(sLineBreak, LDeclarations), [rfIgnoreCase]);
+
 end;
 
 procedure TMainForm.ImportFontAwesomeButtonClick(Sender: TObject);
@@ -100,6 +175,7 @@ begin
           ExpandTemplate(TemplateMemo.Text
           , FontAwesomeUnitNameEdit.Text
           , FontAwesomeTypeNameEdit.Text
+          , FontAwesomeShortNameEdit.Text
           , Entries);
 
         FLastGeneratedUnitName := FontAwesomeUnitNameEdit.Text;
@@ -130,6 +206,7 @@ begin
           ExpandTemplate(TemplateMemo.Text
           , MaterialDesignUnitNameEdit.Text
           , MaterialDesignTypeNameEdit.Text
+          , MaterialDesignShortNameEdit.Text
           , Entries);
 
         FLastGeneratedUnitName := MaterialDesignUnitNameEdit.Text;
