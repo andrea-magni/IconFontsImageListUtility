@@ -12,13 +12,17 @@ type
   TMetadataData = class(TDataModule)
   private
   protected
-    procedure Retrieve(const AURL: string;
-      const ACompletionHandler: TProc<TJSONValue>;
-      const AErrorHandler: TProc<Exception>);
-
     procedure ParseMD(const AJSON: TJSONArray; const AProcessor: TProc<TFontEntries>);
     procedure ParseFA(const AJSON: TJSONObject; const AProcessor: TProc<TFontEntries>);
   public
+    procedure Retrieve(const AURL: string;
+      const ACompletionHandler: TProc<TJSONValue>;
+      const AErrorHandler: TProc<Exception>);
+    procedure RetrieveSync<J: TJSONValue>(const AURL: string;
+      const ACompletionHandler: TProc<J>;
+      const AErrorHandler: TProc<Exception> = nil);
+
+
     procedure RetrieveAndParseMD(const AURL: string;
       const AProcessor: TProc<TFontEntries>;
       const AErrorHandler: TProc<Exception>);
@@ -108,6 +112,25 @@ begin
     end
   , AErrorHandler
   );
+end;
+
+procedure TMetadataData.RetrieveSync<J>(const AURL: string;
+  const ACompletionHandler: TProc<J>;
+  const AErrorHandler: TProc<Exception>);
+var
+  LJSON: J;
+begin
+  try
+    LJSON := TMARSNetClient.GetJSON<J>(AURL, '', '');
+    if Assigned(ACompletionHandler) then
+      ACompletionHandler(LJSON);
+  except on E:Exception do
+    if Assigned(AErrorHandler) then
+      AErrorHandler(E)
+    else
+      raise E;
+  end;
+
 end;
 
 end.

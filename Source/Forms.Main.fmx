@@ -12,7 +12,7 @@ object MainForm: TMainForm
   object Layout1: TLayout
     Align = Top
     Size.Width = 772.000000000000000000
-    Size.Height = 185.000000000000000000
+    Size.Height = 241.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
     object FontAwesomeURLEdit: TEdit
@@ -23,7 +23,7 @@ object MainForm: TMainForm
         'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/maste' +
         'r/metadata/icons.json'
       Position.X = 48.000000000000000000
-      Position.Y = 128.000000000000000000
+      Position.Y = 152.000000000000000000
       Size.Width = 633.000000000000000000
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
@@ -31,7 +31,7 @@ object MainForm: TMainForm
     object ImportFontAwesomeButton: TButton
       Anchors = [akTop, akRight]
       Position.X = 688.000000000000000000
-      Position.Y = 128.000000000000000000
+      Position.Y = 152.000000000000000000
       Size.Width = 77.000000000000000000
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
@@ -46,14 +46,14 @@ object MainForm: TMainForm
       Size.Width = 77.000000000000000000
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 5
+      TabOrder = 6
       Text = 'Import'
       OnClick = ImportMaterialDesignButtonClick
     end
     object MaterialDesignURLEdit: TEdit
       Touch.InteractiveGestures = [LongTap, DoubleTap]
       Anchors = [akLeft, akTop, akRight]
-      TabOrder = 4
+      TabOrder = 5
       Text = 
         'https://raw.githubusercontent.com/Templarian/MaterialDesign/mast' +
         'er/meta.json'
@@ -65,7 +65,7 @@ object MainForm: TMainForm
     end
     object MaterialDesignUnitNameEdit: TEdit
       Touch.InteractiveGestures = [LongTap, DoubleTap]
-      TabOrder = 11
+      TabOrder = 12
       Text = 'Icons.MaterialDesign'
       Position.X = 48.000000000000000000
       Position.Y = 64.000000000000000000
@@ -88,7 +88,7 @@ object MainForm: TMainForm
       Size.PlatformDefault = False
       TextSettings.HorzAlign = Trailing
       Text = 'URL:'
-      TabOrder = 19
+      TabOrder = 21
     end
     object Label2: TLabel
       Position.X = 8.000000000000000000
@@ -98,7 +98,7 @@ object MainForm: TMainForm
       Size.PlatformDefault = False
       TextSettings.HorzAlign = Trailing
       Text = 'Unit:'
-      TabOrder = 17
+      TabOrder = 18
     end
     object Label3: TLabel
       Position.X = 232.000000000000000000
@@ -108,11 +108,11 @@ object MainForm: TMainForm
       Size.PlatformDefault = False
       TextSettings.HorzAlign = Trailing
       Text = 'Type:'
-      TabOrder = 16
+      TabOrder = 17
     end
     object MaterialDesignTypeNameEdit: TEdit
       Touch.InteractiveGestures = [LongTap, DoubleTap]
-      TabOrder = 9
+      TabOrder = 10
       Text = 'TMaterialDesign'
       Position.X = 272.000000000000000000
       Position.Y = 64.000000000000000000
@@ -122,66 +122,66 @@ object MainForm: TMainForm
     end
     object FontAwesomeUnitNameEdit: TEdit
       Touch.InteractiveGestures = [LongTap, DoubleTap]
-      TabOrder = 10
+      TabOrder = 11
       Text = 'Icons.FontAwesome'
       Position.X = 48.000000000000000000
-      Position.Y = 152.000000000000000000
+      Position.Y = 176.000000000000000000
       Size.Width = 169.000000000000000000
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
     end
     object Label4: TLabel
       Position.X = 8.000000000000000000
-      Position.Y = 155.000000000000000000
+      Position.Y = 179.000000000000000000
       Size.Width = 33.000000000000000000
       Size.Height = 17.000000000000000000
       Size.PlatformDefault = False
       TextSettings.HorzAlign = Trailing
       Text = 'Unit:'
-      TabOrder = 15
+      TabOrder = 16
     end
     object Label5: TLabel
       Position.X = 232.000000000000000000
-      Position.Y = 155.000000000000000000
+      Position.Y = 179.000000000000000000
       Size.Width = 33.000000000000000000
       Size.Height = 17.000000000000000000
       Size.PlatformDefault = False
       TextSettings.HorzAlign = Trailing
       Text = 'Type:'
-      TabOrder = 12
+      TabOrder = 13
     end
     object FontAwesomeTypeNameEdit: TEdit
       Touch.InteractiveGestures = [LongTap, DoubleTap]
-      TabOrder = 6
+      TabOrder = 7
       Text = 'TFontAwesome'
       Position.X = 272.000000000000000000
-      Position.Y = 152.000000000000000000
+      Position.Y = 176.000000000000000000
       Size.Width = 169.000000000000000000
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
     end
     object Label6: TLabel
       Position.X = 8.000000000000000000
-      Position.Y = 128.000000000000000000
+      Position.Y = 152.000000000000000000
       Size.Width = 33.000000000000000000
       Size.Height = 17.000000000000000000
       Size.PlatformDefault = False
       TextSettings.HorzAlign = Trailing
       Text = 'URL:'
-      TabOrder = 18
+      TabOrder = 20
     end
     object Label7: TLabel
       AutoSize = True
       StyledSettings = [Family, FontColor]
       Position.X = 8.000000000000000000
-      Position.Y = 104.000000000000000000
+      Position.Y = 128.000000000000000000
       Size.Width = 120.000000000000000000
       Size.Height = 19.000000000000000000
       Size.PlatformDefault = False
       TextSettings.Font.Size = 14.000000000000000000
       TextSettings.Font.StyleExt = {00070000000000000004000000}
       Text = 'Font Awesome'
-      TabOrder = 21
+      TabOrder = 23
     end
     object Label8: TLabel
       AutoSize = True
@@ -194,11 +194,11 @@ object MainForm: TMainForm
       TextSettings.Font.Size = 14.000000000000000000
       TextSettings.Font.StyleExt = {00070000000000000004000000}
       Text = 'Material Design Icons'
-      TabOrder = 20
+      TabOrder = 22
     end
     object MaterialDesignShortNameEdit: TEdit
       Touch.InteractiveGestures = [LongTap, DoubleTap]
-      TabOrder = 8
+      TabOrder = 9
       Text = 'MD'
       Position.X = 488.000000000000000000
       Position.Y = 64.000000000000000000
@@ -214,33 +214,56 @@ object MainForm: TMainForm
       Size.PlatformDefault = False
       TextSettings.HorzAlign = Trailing
       Text = 'Short:'
-      TabOrder = 14
+      TabOrder = 15
     end
     object FontAwesomeShortNameEdit: TEdit
       Touch.InteractiveGestures = [LongTap, DoubleTap]
-      TabOrder = 7
+      TabOrder = 8
       Text = 'FA'
       Position.X = 488.000000000000000000
-      Position.Y = 152.000000000000000000
+      Position.Y = 176.000000000000000000
       Size.Width = 169.000000000000000000
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
     end
     object Label10: TLabel
       Position.X = 448.000000000000000000
-      Position.Y = 155.000000000000000000
+      Position.Y = 179.000000000000000000
       Size.Width = 33.000000000000000000
       Size.Height = 17.000000000000000000
       Size.PlatformDefault = False
       TextSettings.HorzAlign = Trailing
       Text = 'Short:'
-      TabOrder = 13
+      TabOrder = 14
+    end
+    object MaterialDesignMetaURLEdit: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Anchors = [akLeft, akTop, akRight]
+      TabOrder = 4
+      Text = 
+        'https://raw.githubusercontent.com/Templarian/MaterialDesign/mast' +
+        'er/font-build.json'
+      Position.X = 48.000000000000000000
+      Position.Y = 88.000000000000000000
+      Size.Width = 633.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Label11: TLabel
+      Position.X = 8.000000000000000000
+      Position.Y = 88.000000000000000000
+      Size.Width = 33.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.HorzAlign = Trailing
+      Text = 'Meta:'
+      TabOrder = 19
     end
   end
   object Layout2: TLayout
     Align = Client
     Size.Width = 772.000000000000000000
-    Size.Height = 285.000000000000000000
+    Size.Height = 229.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 2
     object CodeMemo: TMemo
@@ -248,13 +271,13 @@ object MainForm: TMainForm
       DataDetectorTypes = []
       Align = Scale
       Position.X = 223.602432250976600000
-      Position.Y = 5.387524127960205000
-      Size.Width = 541.053527832031200000
-      Size.Height = 275.302642822265600000
+      Position.Y = 4.328922748565674000
+      Size.Width = 541.053527832031300000
+      Size.Height = 221.208084106445300000
       Size.PlatformDefault = False
       TabOrder = 1
       Viewport.Width = 537.100000000000000000
-      Viewport.Height = 271.300000000000000000
+      Viewport.Height = 217.200000000000000000
     end
     object TemplateMemo: TMemo
       Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
@@ -264,6 +287,9 @@ object MainForm: TMainForm
         ''
         'interface'
         ''
+        'uses Icons.Utils;'
+        ''
+        '// %Name% - %Version%'
         '// Generated by IconFontsImageListUtility'
         '// https://github.com/andrea-magni/IconFontsImageListUtility'
         '// %TimeStamp%'
@@ -273,13 +299,6 @@ object MainForm: TMainForm
         '{$ENDIF}'
         ''
         'type'
-        '  TIconEntry = record'
-        '    name: string;'
-        '    codepoint: Integer;'
-        '    index: Integer;'
-        '    aliases: string;'
-        '  end;'
-        ''
         '  %TypeName% = record // %Count% entries'
         '{$IFDEF Delphi2010_UP}'
         '  private'
@@ -288,7 +307,7 @@ object MainForm: TMainForm
         '  public'
         '    const _entries: array [0..%Count-1%] of TIconEntry =('
         '%value_declarations%'
-        '    ); // _All'
+        '    ); // _entries'
         '{$IFDEF Delphi2010_UP}'
         '%property_declarations%'
         '{$ELSE}'
@@ -305,19 +324,38 @@ object MainForm: TMainForm
         '  Result := _entries[Index];'
         'end;'
         ''
+        'initialization'
+        '  TIconManager.Instance.AddCollection('
+        
+          '    TIconCollection.Create('#39'%name%'#39', '#39'%fontName%'#39', '#39'%description' +
+          '%'#39', '#39'%version%'#39
+        '    , procedure (const AEntryFunc: TIconEntryFunc)'
+        '      var'
+        '        LIndex: Integer;'
+        '      begin'
+        '        for LIndex := 0 to Length(%ShortName%._entries)-1 do'
+        '        begin'
+        '          if not AEntryFunc(%ShortName%._entries[LIndex]) then'
+        '            Break;'
+        '        end;'
+        '      end'
+        '    )'
+        '  );'
         ''
         'end.'
+        ''
+        ''
         ''
         '')
       Align = Scale
       Position.X = 8.160674095153809000
-      Position.Y = 5.387524127960205000
-      Size.Width = 208.097229003906200000
-      Size.Height = 275.302642822265600000
+      Position.Y = 4.328922748565674000
+      Size.Width = 208.097229003906300000
+      Size.Height = 221.208084106445300000
       Size.PlatformDefault = False
       TabOrder = 0
       Viewport.Width = 188.100000000000000000
-      Viewport.Height = 255.300000000000000000
+      Viewport.Height = 201.200000000000000000
     end
   end
   object Layout3: TLayout
@@ -353,6 +391,16 @@ object MainForm: TMainForm
       Text = 'Test MD'
       OnClick = TestMDButtonClick
     end
+    object TestIconManagerButton: TButton
+      Position.X = 192.000000000000000000
+      Position.Y = 16.000000000000000000
+      Size.Width = 105.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 8
+      Text = 'TestIconManager'
+      OnClick = TestIconManagerButtonClick
+    end
   end
   object SaveDialog1: TSaveDialog
     DefaultExt = '.pas'
@@ -362,6 +410,29 @@ object MainForm: TMainForm
     Title = 'Save generated unit to file...'
     Left = 504
     Top = 401
+  end
+  object FontAwesomeMetaURLEdit: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    Anchors = [akLeft, akTop, akRight]
+    TabOrder = 4
+    Text = 
+      'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/maste' +
+      'r/composer.json'
+    Position.X = 48.000000000000000000
+    Position.Y = 200.000000000000000000
+    Size.Width = 633.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+  end
+  object Label12: TLabel
+    Position.X = 8.000000000000000000
+    Position.Y = 200.000000000000000000
+    Size.Width = 33.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.HorzAlign = Trailing
+    Text = 'Meta:'
+    TabOrder = 19
   end
   object ActionList1: TActionList
     Left = 584

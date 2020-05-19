@@ -43,16 +43,23 @@ type
     FontAwesomeShortNameEdit: TEdit;
     Label10: TLabel;
     TestMDButton: TButton;
+    TestIconManagerButton: TButton;
+    MaterialDesignMetaURLEdit: TEdit;
+    Label11: TLabel;
+    FontAwesomeMetaURLEdit: TEdit;
+    Label12: TLabel;
     procedure ImportMaterialDesignButtonClick(Sender: TObject);
     procedure ImportFontAwesomeButtonClick(Sender: TObject);
     procedure SaveActionExecute(Sender: TObject);
     procedure SaveActionUpdate(Sender: TObject);
     procedure TestFAButtonClick(Sender: TObject);
     procedure TestMDButtonClick(Sender: TObject);
+    procedure TestIconManagerButtonClick(Sender: TObject);
   private
     FLastGeneratedUnitName: string;
   protected
-    function ExpandTemplate(const ATemplate, AUnitName, ATypeName, AShortName: string;
+    function ExpandTemplate(const ATemplate, AUnitName, ATypeName, AShortName,
+      AName, AFontName, ADescription, AVersion: string;
       const Entries: TFontEntries): string;
   public
     procedure AfterConstruction; override;
@@ -67,7 +74,11 @@ implementation
 
 {$R *.fmx}
 
-uses Data.Metadata, Icons.MaterialDesign, Icons.FontAwesome, System.Rtti, TypInfo;
+uses
+  System.Rtti, TypInfo, System.JSON, MARS.Core.JSON
+, Data.Metadata
+, Icons.Utils, Icons.MaterialDesign, Icons.FontAwesome
+;
 
 procedure TMainForm.AfterConstruction;
 begin
@@ -77,7 +88,7 @@ end;
 
 procedure TMainForm.TestFAButtonClick(Sender: TObject);
 var
-  LIcon: Icons.FontAwesome.TIconEntry;
+  LIcon: TIconEntry;
 begin
   ShowMessage(FA.accusoft.name + ' = ' + IntToHex(FA.accusoft.codepoint, 4));
 
@@ -93,7 +104,7 @@ end;
 
 procedure TMainForm.TestMDButtonClick(Sender: TObject);
 var
-  LIcon: Icons.MaterialDesign.TIconEntry;
+  LIcon: TIconEntry;
 begin
   ShowMessage(MD.account.name + ' = ' + IntToHex(MD.account.codepoint, 4));
 
@@ -107,7 +118,45 @@ begin
   end;
 end;
 
-function TMainForm.ExpandTemplate(const ATemplate, AUnitName, ATypeName, AShortName: string;
+procedure TMainForm.TestIconManagerButtonClick(Sender: TObject);
+var
+  LCollection: TIconCollection;
+  LEntry: TIconEntry;
+begin
+  // enumeration
+  for LCollection in TIconManager.Instance.Collections do
+  begin
+    LCollection.ForEach(
+      function (const AEntry: TIconEntry): Boolean
+      begin
+        ShowMessage(LCollection.ToString + ': ' + AEntry + ' ' + IntToHex(AEntry, 4));
+        Result := False; // only first entry
+      end
+    );
+  end;
+
+  // by name
+  for LCollection in TIconManager.Instance.Collections do
+  begin
+    if LCollection.FindEntry('account', LEntry) then
+      ShowMessage(LCollection.ToString + ': ' + LEntry + ' ' + IntToHex(LEntry, 4))
+    else
+      ShowMessage('account icon not found in ' + LCollection.ToString);
+  end;
+
+  // by codepoint
+  for LCollection in TIconManager.Instance.Collections do
+  begin
+    if LCollection.FindEntry($F1FE, LEntry) then
+      ShowMessage(LCollection.ToString + ': ' + LEntry + ' ' + IntToHex(LEntry, 4))
+    else
+      ShowMessage('$F1FE codepoint not found in ' + LCollection.ToString);
+  end;
+
+end;
+
+function TMainForm.ExpandTemplate(const ATemplate, AUnitName, ATypeName, AShortName,
+  AName, AFontName, ADescription, AVersion: string;
   const Entries: TFontEntries): string;
 var
   LDeclarations: TArray<string>;
@@ -118,7 +167,11 @@ begin
     .Replace('%ShortName%', AShortName, [rfReplaceAll, rfIgnoreCase])
     .Replace('%Count%', Length(Entries).ToString, [rfReplaceAll, rfIgnoreCase])
     .Replace('%Count-1%', (Length(Entries)-1).ToString, [rfReplaceAll, rfIgnoreCase])
-    .Replace('%TimeStamp%', FormatDateTime('yyyy-mm-dd hh:nn.ss', Now), [rfReplaceAll, rfIgnoreCase]);
+    .Replace('%TimeStamp%', FormatDateTime('yyyy-mm-dd hh:nn.ss', Now), [rfReplaceAll, rfIgnoreCase])
+    .Replace('%Name%', AName, [rfReplaceAll, rfIgnoreCase])
+    .Replace('%FontName%', AFontName, [rfReplaceAll, rfIgnoreCase])
+    .Replace('%Description%', ADescription, [rfReplaceAll, rfIgnoreCase])
+    .Replace('%Version%', AVersion, [rfReplaceAll, rfIgnoreCase])
   ;
 
   LDeclarations := [];
@@ -166,8 +219,31 @@ begin
   AniIndicator1.Enabled := True;
   MetadataData.RetrieveAndParseFA(FontAwesomeURLEdit.Text
   , procedure (Entries: TFontEntries)
+    var
+      LName, LFontName, LDescription, LVersion: string;
     begin
       AniIndicator1.Enabled := True;
+
+      LName := 'font-awesome';
+      LFontName := 'FontAwesome';
+      LDescription := 'N/D';
+      LVersion := '5';
+
+      MetadataData.RetrieveSync<TJSONObject>(FontAwesomeMetaURLEdit.Text
+      , procedure (JSON: TJSONObject)
+//        var LVersionJSON: TJSONObject;
+        begin
+//          LVersionJSON := JSON.GetValue<TJSONObject>('version');
+//          LVersion := LVersionJSON.ReadIntegerValue('major').ToString + '.'
+//            + LVersionJSON.ReadIntegerValue('minor').ToString + '.'
+//            + LVersionJSON.ReadIntegerValue('patch').ToString;
+
+          LName := JSON.ReadStringValue('name', 'font-awesome');
+//          LFontName := JSON.ReadStringValue('fontName', 'Material Design Icons');
+          LDescription := JSON.ReadStringValue('description', 'The iconic font, CSS, and SVG framework');
+        end
+      );
+
       CodeMemo.Lines.BeginUpdate;
       try
         CodeMemo.Lines.Clear;
@@ -176,6 +252,7 @@ begin
           , FontAwesomeUnitNameEdit.Text
           , FontAwesomeTypeNameEdit.Text
           , FontAwesomeShortNameEdit.Text
+          , LName, LFontName, LDescription, LVersion
           , Entries);
 
         FLastGeneratedUnitName := FontAwesomeUnitNameEdit.Text;
@@ -195,10 +272,34 @@ end;
 procedure TMainForm.ImportMaterialDesignButtonClick(Sender: TObject);
 begin
   AniIndicator1.Enabled := True;
-  MetadataData.RetrieveAndParseMD(MaterialDesignURLEdit.Text
+  MetadataData.RetrieveAndParseMD(
+    MaterialDesignURLEdit.Text
   , procedure (Entries: TFontEntries)
+    var
+      LName, LFontName, LDescription, LVersion: string;
     begin
       AniIndicator1.Enabled := True;
+
+      LName := 'MaterialDesignIcons';
+      LFontName := 'MaterialDesignIcons';
+      LDescription := 'N/D';
+      LVersion := 'N/D';
+
+      MetadataData.RetrieveSync<TJSONObject>(MaterialDesignMetaURLEdit.Text
+      , procedure (JSON: TJSONObject)
+        var LVersionJSON: TJSONObject;
+        begin
+          LVersionJSON := JSON.GetValue<TJSONObject>('version');
+          LVersion := LVersionJSON.ReadIntegerValue('major').ToString + '.'
+            + LVersionJSON.ReadIntegerValue('minor').ToString + '.'
+            + LVersionJSON.ReadIntegerValue('patch').ToString;
+
+          LName := JSON.ReadStringValue('name', 'Material Design Icons');
+          LFontName := JSON.ReadStringValue('fontName', 'Material Design Icons');
+          LDescription := JSON.ReadStringValue('description', 'The complete material design icon pack in a single font.');
+        end
+      );
+
       CodeMemo.Lines.BeginUpdate;
       try
         CodeMemo.Lines.Clear;
@@ -207,6 +308,7 @@ begin
           , MaterialDesignUnitNameEdit.Text
           , MaterialDesignTypeNameEdit.Text
           , MaterialDesignShortNameEdit.Text
+          , LName, LFontName, LDescription, LVersion
           , Entries);
 
         FLastGeneratedUnitName := MaterialDesignUnitNameEdit.Text;
