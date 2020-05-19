@@ -16,8 +16,8 @@ type
     aliases: string;
 
     {$IFDEF Delphi2010_UP}
-    class operator Implicit(Entry: TIconEntry): Integer; static;
-    class operator Implicit(Entry: TIconEntry): string; static;
+    class operator Implicit(Entry: TIconEntry): Integer;
+    class operator Implicit(Entry: TIconEntry): string;
     {$ENDIF}
   end;
 
