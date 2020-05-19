@@ -303,7 +303,7 @@ object MainForm: TMainForm
         '{$IFDEF Delphi2010_UP}'
         '  private'
         '    function GetEntry(const Index: Integer): TIconEntry;'
-        '{$ifend}'
+        '{$ENDIF}'
         '  public'
         '    const _entries: array [0..%Count-1%] of TIconEntry =('
         '%value_declarations%'
@@ -312,7 +312,7 @@ object MainForm: TMainForm
         '%property_declarations%'
         '{$ELSE}'
         '%const_declarations%'
-        '{$ifend}'
+        '{$ENDIF}'
         '  end;'
         ''
         'var %ShortName%: %TypeName%;'
@@ -342,12 +342,7 @@ object MainForm: TMainForm
         '    )'
         '  );'
         ''
-        'end.'
-        ''
-        ''
-        ''
-        ''
-        '')
+        'end.')
       Align = Scale
       Position.X = 8.160674095153809000
       Position.Y = 4.328922748565674000

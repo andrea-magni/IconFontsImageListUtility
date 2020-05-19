@@ -4,7 +4,7 @@ interface
 
 {$if compilerversion >= 21}
   {$define Delphi2010_UP}
-{$ENDIF}
+{$ifend}
 
 uses Classes, SysUtils, Generics.Collections;
 
